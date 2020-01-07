@@ -30,7 +30,14 @@ int main()
 	pauseMessage.setFont(fontSensation);
 	pauseMessage.setCharacterSize(40);
 	pauseMessage.setFillColor(sf::Color::White);
-	pauseMessage.setString("Welcome to SFML pong!\nPress space to start the game");
+	pauseMessage.setString("Welcome to SFML Box2D Game Title!\nPress space to start the game");
+	pauseMessage.setStyle(sf::Text::Bold);
+
+	// Center text
+	sf::FloatRect textRect = pauseMessage.getLocalBounds();
+	pauseMessage.setOrigin(textRect.left + textRect.width / 2.0f,
+		textRect.top + textRect.height / 2.0f);
+	pauseMessage.setPosition(sf::Vector2f(gameWidth / 2.0f, gameHeight / 2.0f));
 
 	sf::Clock clock;
 	bool isPlaying = false;
