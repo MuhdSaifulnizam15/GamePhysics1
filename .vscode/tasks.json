@@ -1,0 +1,41 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558 
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "g++.exe build active file with B2D & SFML",
+            "command": "C:/MinGW/bin/g++.exe",
+            "args": [
+                "-g",
+                "${file}",
+                "-o",
+                "${fileDirname}\\${fileBasenameNoExtension}.exe",
+                "-I\"C:\\SFML-2.5.1\\include/",
+                "-I\"C:\\Box2D/",
+                "-L\"C:\\Box2D\\Build\\Box2D/", 
+                "-lBox2D",
+                "-L\"C:\\SFML-2.5.1\\lib/",
+                "-lsfml-system",
+                "-lsfml-window",
+                "-lopengl32",
+                "-lglu32",
+                "-lsfml-graphics",
+                "-lsfml-main",
+                "-lsfml-audio", 
+                "-lsfml-network"
+            ],
+            "options": {
+                "cwd": "C:/MinGW/bin"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
+}
