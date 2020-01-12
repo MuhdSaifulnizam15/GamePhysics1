@@ -55,6 +55,10 @@ int main()
 	std::vector<MyRectangle> boxList;
 	sf::Vector2f dynamicBoxSize(32, 32);
 
+	// A floor
+	MyRectangle floor(world, sf::Vector2f(270,10), sf::Vector2f(270,270), 30.0f, false);
+	floor.setFillColor(sf::Color::Red);
+
 	// Load the text font
 	sf::Font fontSensation;
 	sf::Font fontArial;
@@ -65,24 +69,29 @@ int main()
 		return EXIT_FAILURE;
 
 	// Initialize the title and instruction message
-	sf::Text titleText, instructionMessage, noOfBox;
+	sf::Text titleText, instructionMessage, scoreText, lifesLeft;
 	titleText.setFont(fontSensation);
 	instructionMessage.setFont(fontSensation);
-	noOfBox.setFont(fontArial);
+	scoreText.setFont(fontSensation);
+	lifesLeft.setFont(fontSensation);
 
 	titleText.setCharacterSize(80);
 	titleText.setFillColor(sf::Color::White);
 	titleText.setString("GAME TITLE");
 	titleText.setStyle(sf::Text::Bold);
 
-	instructionMessage.setCharacterSize(20);
+	instructionMessage.setCharacterSize(24);
 	instructionMessage.setFillColor(sf::Color::White);
 	instructionMessage.setString("Press space to start the game");
 	instructionMessage.setStyle(sf::Text::Bold);
 
-	noOfBox.setCharacterSize(16);
-	noOfBox.setColor(sf::Color::White);
-	noOfBox.setPosition(3,-3);
+	scoreText.setCharacterSize(20);
+	scoreText.setFillColor(sf::Color::White);
+	scoreText.setPosition(20,15);
+
+	lifesLeft.setCharacterSize(20);
+	lifesLeft.setFillColor(sf::Color::White);
+	lifesLeft.setPosition(20,40);
 
 	// Center text
 	sf::FloatRect textRect = titleText.getLocalBounds();
@@ -126,8 +135,6 @@ int main()
 			}
 		}
 
-		// This is input handling without poll event
-		// READ SFML DOCUMENTATION!
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 		{
 			if (!leftMousePressed)
@@ -166,6 +173,12 @@ int main()
 				bottomBorder.update();
 				leftBorder.update();
 				rightBorder.update();
+				floor.update();
+
+				for (int i = 0; i < boxList.size(); i++)
+				{
+					boxList[i].update();
+				}
 			}
 
 			// timeElapsedSinceLastFrame can be higher than fixedTimeStep,
@@ -185,6 +198,20 @@ int main()
 			window.draw(bottomBorder.getShape());
 			window.draw(leftBorder.getShape());
 			window.draw(rightBorder.getShape());
+			window.draw(floor.getShape());
+
+			for (int i = 0; i < boxList.size(); i++)
+			{
+				window.draw(boxList[i].getShape());
+			}
+
+			std::ostringstream boxListStream, lifeCount;
+			boxListStream << boxList.size();
+			lifeCount << 3;
+			scoreText.setString("Score: " + boxListStream.str());
+			lifesLeft.setString("Lives left: " + lifeCount.str());
+			window.draw(scoreText);
+			window.draw(lifesLeft);
 		}
 		else {
 			// Draw the pause message
