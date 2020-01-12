@@ -4,13 +4,14 @@
 class MyRectangle
 {
  private:
-	sf::RectangleShape rect_;
+	// sf::RectangleShape rect_;
 	b2BodyDef bodyDef_;
 	// b2Body* body_;
 	b2PolygonShape bodyShape_;
 	// b2FixtureDef bodyFixtureDef_;
 
  public:
+ 	sf::RectangleShape rect_;
 	b2Body* body_;
 	b2FixtureDef bodyFixtureDef_;
 	bool dead = false;

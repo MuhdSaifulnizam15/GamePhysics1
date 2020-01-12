@@ -27,7 +27,8 @@ static std::vector<MyRectangle> boxList;
 //World variables
 static b2Vec2 worldgravity(0.f, 12.f);
 static b2World world(worldgravity);
-
+static float timer;
+static int points;
 sf::Font loadFont(const std::string &fontFilename = "resources/04b03.ttf")
 {
 	sf::Font myFont;
@@ -41,9 +42,9 @@ sf::Font loadFont(const std::string &fontFilename = "resources/04b03.ttf")
 
 void Start()
 {
+
 	sf::Vector2u size(windowSizeX, windowSizeY);
 	window.create(sf::VideoMode(windowSizeX, windowSizeY), "SFML in Box2D");
-
 	// Set vSync to true (and as a result, we have a cap of 60FPS)
 	// Or you can use window.setFramerateLimit to cap 60FPS
 	window.setFramerateLimit(60);
@@ -64,6 +65,9 @@ void Start()
 	rightBorder.setFillColor(sf::Color(100, 100, 100));
 	windowBorders.push_back(leftBorder);
 	windowBorders.push_back(rightBorder);
+
+	timer = 12;
+	points = 0;
 }
 
 void LoadSfx()
@@ -74,6 +78,7 @@ void LoadSfx()
 		std::printf("Music file not found!");
 	else
 	{
+		bgmusic.setPlayingOffset(sf::Time(sf::seconds(0.4f)));
 		bgmusic.play();
 	}
 
@@ -99,61 +104,86 @@ void SpawnBoxes(std::vector<MyRectangle> &boxList, sf::RenderWindow &window, b2W
 	if (boxtype == 0)
 	{
 		sf::Vector2f dynamicBoxSize(15.f, 15.f);
-		pos.setPosition(static_cast<float>(windowBorderSize + (rand() % static_cast<int>(window.getSize().x - dynamicBoxSize.x - windowBorderSize))), -dynamicBoxSize.y);
+		pos.setPosition(static_cast<float>(
+							windowBorderSize + (rand() % static_cast<int>(window.getSize().x - dynamicBoxSize.x - windowBorderSize))),
+						windowSizeY + dynamicBoxSize.y);
 		MyRectangle r(world, dynamicBoxSize, pos.getPosition());
 		r.setOutlineThickness(1);
 		r.setOutlineColor(sf::Color::Black);
 		r.setFillColor(sf::Color::Magenta);
 		r.body_->SetActive(true);
-
+		r.body_->ApplyLinearImpulse(
+			b2Vec2((-3 + (rand() % 6)) * r.body_->GetMass(), -20 * r.body_->GetMass()),
+			r.body_->GetWorldCenter(),
+			true);
 		boxList.push_back(r);
 	}
 	else if (boxtype == 1)
 	{
 		sf::Vector2f dynamicBoxSize(30.f, 30.f);
-		pos.setPosition(static_cast<float>(windowBorderSize + (rand() % static_cast<int>(window.getSize().x - dynamicBoxSize.x - windowBorderSize))), -dynamicBoxSize.y);
+		pos.setPosition(
+			static_cast<float>(windowBorderSize + (rand() % static_cast<int>(window.getSize().x - dynamicBoxSize.x - windowBorderSize))),
+			windowSizeY + dynamicBoxSize.y);
 		MyRectangle r(world, dynamicBoxSize, pos.getPosition());
 		r.setOutlineThickness(1);
 		r.setOutlineColor(sf::Color::Black);
 		r.setFillColor(sf::Color::Blue);
 		r.body_->SetActive(true);
-
+		r.body_->ApplyLinearImpulse(
+			b2Vec2((-3 + (rand() % 6)) * r.body_->GetMass(), -20 * r.body_->GetMass()),
+			r.body_->GetWorldCenter(),
+			true);
 		boxList.push_back(r);
 	}
 	else if (boxtype == 2)
 	{
 		sf::Vector2f dynamicBoxSize(50.f, 50.f);
-		pos.setPosition(static_cast<float>(windowBorderSize + (rand() % static_cast<int>(window.getSize().x - dynamicBoxSize.x - windowBorderSize))), -dynamicBoxSize.y);
+		pos.setPosition(static_cast<float>(
+							windowBorderSize + (rand() % static_cast<int>(window.getSize().x - dynamicBoxSize.x - windowBorderSize))),
+						windowSizeY + dynamicBoxSize.y);
 		MyRectangle r(world, dynamicBoxSize, pos.getPosition());
 		r.setOutlineThickness(1);
 		r.setOutlineColor(sf::Color::Black);
 		r.setFillColor(sf::Color::Cyan);
 		r.body_->SetActive(true);
-
+		r.body_->ApplyLinearImpulse(
+			b2Vec2((-3 + (rand() % 6)) * r.body_->GetMass(), -20 * r.body_->GetMass()),
+			r.body_->GetWorldCenter(),
+			true);
 		boxList.push_back(r);
 	}
 	else if (boxtype == 3)
 	{
 		sf::Vector2f dynamicBoxSize(70.f, 70.f);
-		pos.setPosition(static_cast<float>(windowBorderSize + (rand() % static_cast<int>(window.getSize().x - dynamicBoxSize.x - windowBorderSize))), -dynamicBoxSize.y);
+		pos.setPosition(static_cast<float>(
+							windowBorderSize + (rand() % static_cast<int>(window.getSize().x - dynamicBoxSize.x - windowBorderSize))),
+						windowSizeY + dynamicBoxSize.y);
 		MyRectangle r(world, dynamicBoxSize, pos.getPosition());
 		r.setOutlineThickness(1);
 		r.setOutlineColor(sf::Color::Black);
 		r.setFillColor(sf::Color::Red);
 		r.body_->SetActive(true);
-
+		r.body_->ApplyLinearImpulse(
+			b2Vec2((-3 + (rand() % 6)) * r.body_->GetMass(), -20 * r.body_->GetMass()),
+			r.body_->GetWorldCenter(),
+			true);
 		boxList.push_back(r);
 	}
 	else if (boxtype == 4)
 	{
 		sf::Vector2f dynamicBoxSize(100.0f, 100.f);
-		pos.setPosition(static_cast<float>(windowBorderSize + (rand() % static_cast<int>(window.getSize().x - dynamicBoxSize.x - windowBorderSize))), -dynamicBoxSize.y);
+		pos.setPosition(static_cast<float>(
+							windowBorderSize + (rand() % static_cast<int>(window.getSize().x - dynamicBoxSize.x - windowBorderSize))),
+						windowSizeY + dynamicBoxSize.y);
 		MyRectangle r(world, dynamicBoxSize, pos.getPosition());
 		r.setOutlineThickness(1);
 		r.setOutlineColor(sf::Color::Black);
 		r.setFillColor(sf::Color::Green);
 		r.body_->SetActive(true);
-
+		r.body_->ApplyLinearImpulse(
+			b2Vec2((-3 + (rand() % 6)) * r.body_->GetMass(), -20 * r.body_->GetMass()),
+			r.body_->GetWorldCenter(),
+			true);
 		boxList.push_back(r);
 	}
 }
@@ -165,9 +195,12 @@ int main()
 	std::srand(static_cast<unsigned>(time(NULL)));
 
 	// Timer for fixed update
-	sf::Clock fixedUpdateClock;
-	float timeElapsedSinceLastFrame = 0;
+	sf::Clock fixedUpdateClock, timerclock, flashingclock;
+	sf::Time elapsedtime = fixedUpdateClock.getElapsedTime();
 
+	float timeElapsedSinceLastFrame = 0;
+	float timeelapsed = 0;
+	float flashingtimeelapsed = 0;
 	//Init the world
 	Start();
 
@@ -176,12 +209,20 @@ int main()
 
 	// Text creation
 	sf::Font font = loadFont();
-	sf::Text text;
+
+	sf::Text pointstext;
+	sf::Text timertext;
+
 	sf::Keyboard key;
-	text.setFont(font);
-	text.setCharacterSize(16);
-	text.setPosition(3, -3);
-	text.setColor(sf::Color::White);
+	pointstext.setFont(font);
+	pointstext.setCharacterSize(16);
+	pointstext.setPosition(24, -3);
+	pointstext.setColor(sf::Color::White);
+
+	timertext.setFont(font);
+	timertext.setCharacterSize(150);
+	timertext.setPosition(window.getSize().x / 2 - 64.0f, window.getSize().y / 2 - 108);
+	timertext.setColor(sf::Color(255, 255, 255, 80));
 
 	// A buffer to check whether left mouse button has been clicked before or not
 	bool leftMousePressed = false;
@@ -203,32 +244,41 @@ int main()
 		// We get the time elapsed since last frame and add it to timeElapsedSinceLastFrame
 		timeElapsedSinceLastFrame += fixedUpdateClock.restart().asSeconds();
 
-
 		//By right, beyond this point it should be in an Update() function lol
 
-		//Number of boxes that are not clicked on
-		//Implementing another vector where boxes are clicked upon crashes the program
-		//Dirty hack?? to avoid declaring another vector
+		/*
+		* Number of boxes that are not clicked on
+		* Implementing another vector where boxes are clicked upon crashes the program
+		* Dirty hack?? to avoid declaring another vector
+		*/
 		int alivecount = 0;
-		for (int i = 0; i < boxList.size(); i++)
+
+		if (timer >= 0)
 		{
-			if (boxList[i].dead == false)
+			for (int i = 0; i < boxList.size(); i++)
 			{
-				alivecount++;
+				if (boxList[i].dead == false)
+				{
+					alivecount++;
+				}
+			}
+
+			if (alivecount < 8)
+			{
+				if (boxSpawnTimer >= 20.f)
+				{
+					SpawnBoxes(boxList, window, world);
+					boxSpawnTimer = 0;
+				}
+				else
+				{
+					boxSpawnTimer += 1.0f;
+				}
 			}
 		}
-
-		if (alivecount < 8)
+		else
 		{
-			if (boxSpawnTimer >= 20.f)
-			{
-				SpawnBoxes(boxList, window, world);
-				boxSpawnTimer = 0;
-			}
-			else
-			{
-				boxSpawnTimer += 1.0f;
-			}
+			boxList.clear();
 		}
 
 		// If sufficient time has elapsed, we update the physics
@@ -256,7 +306,7 @@ int main()
 				* Ratio of 0.03125 = 1 pixel 
 				* I think there's other ways to check if box is outside window 
 				*/
-				if (boxList[i].body_->GetPosition().y > (0.03125 * windowSizeY))
+				if (boxList[i].body_->GetPosition().y > (0.03125 * windowSizeY) + boxList[i].rect_.getSize().y)
 				{
 					boxList[i].body_->SetActive(false);
 					world.DestroyBody(boxList[i].body_);
@@ -278,13 +328,25 @@ int main()
 								soundInstances.back().setPlayingOffset(sf::seconds(0.6f));
 								soundInstances.back().play();
 
-								//Set to grey when clicked
+								if (boxList[i].rect_.getFillColor() == sf::Color::Magenta)
+									{points += 10;}
+								else if (boxList[i].rect_.getFillColor() == sf::Color::Blue)
+									{points += 7;}
+								else if (boxList[i].rect_.getFillColor() == sf::Color::Cyan)
+									{points += 5;}
+								else if (boxList[i].rect_.getFillColor() == sf::Color::Red)
+									{points += 3;}
+								else if (boxList[i].rect_.getFillColor() == sf::Color::Green)
+									{points += 1;}
+
+								//Set to grey and dead when clicked
 								boxList[i].setFillColor(sf::Color(64, 64, 64));
 								boxList[i].body_->ApplyLinearImpulse(
-									b2Vec2((-3 + (rand() % 6)) * boxList[i].body_->GetMass(), -20 * boxList[i].body_->GetMass()),
+									b2Vec2((-3 + (rand() % 6)) * boxList[i].body_->GetMass(),
+										   -5 * boxList[i].body_->GetMass()),
 									boxList[i].body_->GetWorldCenter(),
 									true);
-								boxList[i].body_->SetAngularVelocity(5.0f);
+								boxList[i].body_->SetAngularVelocity(10.0f);
 
 								//Disables collision of box using b2Filter catergorybits and maskbits
 								boxList[i].disableCollision();
@@ -330,10 +392,52 @@ int main()
 			window.draw(boxList[i].getShape());
 		}
 
-		std::ostringstream boxListStream;
-		boxListStream << boxList.size();
-		text.setString("Number of boxes: " + boxListStream.str());
-		window.draw(text);
+		sf::Time deltat = timerclock.restart();
+		timeelapsed += deltat.asSeconds();
+		if (timeelapsed >= 1.0f)
+		{
+			timer--;
+			timeelapsed = 0.f;
+		}
+
+		std::ostringstream pointsStream;
+		std::ostringstream timerStream;
+		timerStream << timer;
+		if (timer >= 0)
+		{
+			if (timer < 10)
+			{
+				timertext.setPosition(window.getSize().x / 2 - 32.0f, window.getSize().y / 2 - 108);
+			}
+			if(timer < 5){
+				timertext.setColor(sf::Color(255, 0, 0, 100));
+				sf::Time flashdt = flashingclock.restart();
+				flashingtimeelapsed += flashdt.asSeconds();
+				int alpha = timertext.getFillColor().a * flashingtimeelapsed;
+				if(flashingtimeelapsed / (timer + 0.1) > 0.17f){
+					timertext.setColor(sf::Color(255, 0, 0, alpha));
+					flashingtimeelapsed = 0;
+					alpha = 100;
+				}
+				else if(flashingtimeelapsed / (timer + 0.1) < 0.17f){
+					timertext.setColor(sf::Color(255, 0, 0, alpha));
+					alpha = 80;
+				}	
+			}
+
+			if(timer <= 0){
+				timertext.setColor(sf::Color(255, 0, 0, 100));
+			}
+			
+
+			timertext.setString(timerStream.str());
+			timerclock.restart();
+		}
+		pointsStream << points;
+		pointstext.setString("Points: " + pointsStream.str());
+		//timertext.setString("Time left: " + timerStream.str());
+		window.draw(timertext);
+		window.draw(pointstext);
 		window.display();
 	}
 

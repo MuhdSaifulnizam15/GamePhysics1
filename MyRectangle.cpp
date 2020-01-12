@@ -66,7 +66,7 @@ void  MyRectangle::disableCollision()
 	short nocollide = 0x0004;
 	b2Filter bd =  body_->GetFixtureList()->GetFilterData();
 	bd.categoryBits = nocollide;
-	bd.maskBits = nocollide;
+	bd.maskBits = 0x0000;
 	body_->GetFixtureList()->SetFilterData(bd);
 }
 
