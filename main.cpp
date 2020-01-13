@@ -91,7 +91,6 @@ void loadSfx()
 	else
 	{
 		bgMusic.setPlayingOffset(sf::Time(sf::seconds(0.4f)));
-		bgMusic.setLoop(true);
 		bgMusic.play();
 	}
 
@@ -211,8 +210,6 @@ int main()
 	Start();
 	Border();
 
-	// Load SFX
-	loadSfx();
 
 	// Load the text font
 	sf::Font fontSensation = loadFont("resources/sansation.ttf");
@@ -229,7 +226,7 @@ int main()
 
 	titleText.setCharacterSize(80);
 	titleText.setFillColor(sf::Color::White);
-	titleText.setString("GAME TITLE");
+	titleText.setString("WHACK THE BOX");
 	titleText.setStyle(sf::Text::Bold);
 
 	instructionMessage.setCharacterSize(20);
@@ -244,7 +241,7 @@ int main()
 	timertext.setColor(sf::Color(255, 255, 255, 80));
 	timertext.setPosition(sf::Vector2f(gameWidth / 2.0f -64.0f, gameHeight / 2.0f - 108.0f));
 
-	gameOverText.setCharacterSize(80);
+	gameOverText.setCharacterSize(60);
 	gameOverText.setColor(sf::Color(255, 0, 0));
 	gameOverText.setString("GAME OVER");
 	gameOverText.setStyle(sf::Text::Bold);
@@ -292,6 +289,8 @@ int main()
 				{
 					// Start the game
 					isPlaying = true;
+					// Load SFX
+					loadSfx();
 				} 
 			}
 		}
@@ -306,7 +305,7 @@ int main()
 		*/
 		int alivecount = 0;
 
-		if (timer >= 0)
+		if (timer >= 0.5f)
 		{
 			for (int i = 0; i < boxList.size(); i++)
 			{
@@ -496,7 +495,7 @@ int main()
 					}
 				}
 
-				if (timer <= 0) {
+				if (timer <= .5f) {
 					timertext.setColor(sf::Color(255, 0, 0, 100));
 					gameOver = true;
 				}
@@ -517,6 +516,12 @@ int main()
 			if (gameOver == true)
 			{
 				//gameOverText.setPosition(window.getSize().x / 2 - 108, window.getSize().y / 2 - 108);
+				timertext.setColor(sf::Color(255, 0, 0, 0));
+				pointstext.setColor(sf::Color(255, 0, 0, 100));
+				pointstext.setPosition(sf::Vector2f(gameWidth / 2.0f - 90, gameHeight / 2.0f));
+				pointstext.setCharacterSize(40);
+				window.draw(timertext);
+				window.draw(pointstext);
 				window.draw(gameOverText);
 			}
 		}
