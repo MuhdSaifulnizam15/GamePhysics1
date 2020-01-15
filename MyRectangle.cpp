@@ -1,3 +1,12 @@
+/********************************************************************
+Course: TGD2251 Game Physics
+Session: Trimester 2, 2019/20
+ID and Name #1: 1171300077 Lim Kuang Tar
+Contacts	#1: 0164230329 1171300077@student.mmu.edu.my
+ID and Name #2: 1171302090 Muhammad Saifulnizam bin Mohd Samsul Sukri
+Contacts	#2: 0182446467 1171302090@student.mmu.edu.my
+*********************************************************************/
+
 #include "MyRectangle.h"
 
 // Box2D uses meters for simulation, so we need to set how many pixels representing one meter

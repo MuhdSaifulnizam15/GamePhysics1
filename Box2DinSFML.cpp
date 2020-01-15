@@ -1,3 +1,12 @@
+/********************************************************************
+Course: TGD2251 Game Physics
+Session: Trimester 2, 2019/20
+ID and Name #1: 1171300077 Lim Kuang Tar
+Contacts	#1: 0164230329 1171300077@student.mmu.edu.my
+ID and Name #2: 1171302090 Muhammad Saifulnizam bin Mohd Samsul Sukri
+Contacts	#2: 0182446467 1171302090@student.mmu.edu.my
+*********************************************************************/
+
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <Box2D/Box2D.h>
@@ -29,6 +38,8 @@ static b2Vec2 worldgravity(0.f, 12.f);
 static b2World world(worldgravity);
 static float timer;
 static int points;
+
+// Load the font based on the filename passed as the arguments
 sf::Font loadFont(const std::string &fontFilename = "resources/04b03.ttf")
 {
 	sf::Font myFont;
@@ -70,6 +81,7 @@ void Start()
 	points = 0;
 }
 
+// Load Sound Effects/Music onto this game
 void LoadSfx()
 {
 	//Loading music
@@ -88,14 +100,7 @@ void LoadSfx()
 	}
 }
 
-// void Keyboard(sf::Keyboard key)
-// {
-// 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
-// 	{
-// 		boxList[0].body_->ApplyLinearImpulse(b2Vec2(0,-150), boxList[0].body_->GetWorldCenter(), true);
-// 	}
-// }
-
+// Spawning the Box
 void SpawnBoxes(std::vector<MyRectangle> &boxList, sf::RenderWindow &window, b2World &world)
 {
 	int boxtype = rand() % 5;
@@ -243,8 +248,6 @@ int main()
 		}
 		// We get the time elapsed since last frame and add it to timeElapsedSinceLastFrame
 		timeElapsedSinceLastFrame += fixedUpdateClock.restart().asSeconds();
-
-		//By right, beyond this point it should be in an Update() function lol
 
 		/*
 		* Number of boxes that are not clicked on
@@ -403,6 +406,7 @@ int main()
 		std::ostringstream pointsStream;
 		std::ostringstream timerStream;
 		timerStream << timer;
+		// Customize the timer for better experience
 		if (timer >= 0)
 		{
 			if (timer < 10)
@@ -436,8 +440,8 @@ int main()
 		pointsStream << points;
 		pointstext.setString("Points: " + pointsStream.str());
 		//timertext.setString("Time left: " + timerStream.str());
-		window.draw(timertext);
-		window.draw(pointstext);
+		window.draw(timertext);	// Draw the timer on the screen
+		window.draw(pointstext); // Draw the points on the screen
 		window.display();
 	}
 
